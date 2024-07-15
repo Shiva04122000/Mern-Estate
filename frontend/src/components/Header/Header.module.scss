@@ -1,0 +1,70 @@
+@import "../../utils/variables";
+@import "../../utils/mixins";
+
+.header {
+  padding: 20px 0px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  background: $SECONDARY_COLOR;
+  @include flexBody();
+
+  h2 {
+    font-family: $FAMILY_POPPINS;
+    font-size: 30px;
+    cursor: pointer;
+    span:nth-child(1) {
+      color: $TERTIARY_COLOR;
+    }
+    span:nth-child(2) {
+      color: $DARK_TERTIARY_COLOR;
+    }
+  }
+
+  form {
+    @include flexBody();
+    border: 1px solid $PRIMARY_COLOR;
+    padding: 13px;
+    border-radius: 5px;
+    background: $PRIMARY_COLOR;
+    input {
+      font-size: 17px;
+      background-color: transparent;
+      border: none;
+      width: 240px;
+      outline: none;
+    }
+    .icon {
+      font-weight: 900;
+      font-size: 22px;
+    }
+  }
+  .ul {
+    @include flexBody(center, 30px);
+    padding: 10px 0px;
+    p {
+      font-weight: 500;
+      color: $BLACK;
+      list-style: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $DARK_BLACK;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+    h2 {
+      font-size: 20px;
+    }
+    form {
+      padding: 8px;
+      input {
+        width: 180px;
+      }
+    }
+  }
+}

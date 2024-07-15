@@ -1,0 +1,6 @@
+@mixin flexBody($alignItem: center, $gap: 5px, $justifyContent: space-around) {
+  display: flex;
+  justify-content: $justifyContent;
+  align-items: $alignItem;
+  gap: $gap;
+}
