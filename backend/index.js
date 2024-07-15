@@ -2,6 +2,7 @@ import express, { json } from "express";
 import dotenv from "dotenv";
 import connectDb from "./data/dbConnect.js";
 import authRouter from "./routes/auth.route.js";
+import { errorMiddleware } from "./utils/error.js";
 
 const app = express();
 const PORT = 3000;
@@ -17,6 +18,4 @@ app.listen(PORT, () => {
 app.use(express.json());
 app.use("/api/auth", authRouter);
 
-app.get("/", (req, res) => {
-  res.send("Server Running ");
-});
+app.use(errorMiddleware);
