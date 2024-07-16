@@ -1,5 +1,7 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+
 import connectDb from "./data/dbConnect.js";
 import authRouter from "./routes/auth.route.js";
 import { errorMiddleware } from "./utils/error.js";
@@ -10,6 +12,13 @@ const PORT = 3000;
 dotenv.config();
 
 connectDb();
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["POST", "GET", "PUT", "DELETE"],
+  })
+);
 
 app.listen(PORT, () => {
   console.log(`Server running at port:${PORT}`);
