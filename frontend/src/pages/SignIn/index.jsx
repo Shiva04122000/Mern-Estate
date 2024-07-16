@@ -34,6 +34,7 @@ const index = () => {
               type={elem?.type}
               name={elem?.name}
               onChange={(e) => handleOnChange(e)}
+              required
             />
           );
         })}
