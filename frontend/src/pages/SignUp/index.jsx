@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import styles from "../SignIn/SignIn.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { post } from "../../services/publicRequest";
+import toast from "react-hot-toast";
 
 const index = () => {
   const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     setData({ ...data, [e?.target?.name]: e?.target?.value });
@@ -14,23 +17,38 @@ const index = () => {
       type: "text",
       name: "userName",
       placeholder: "Username",
+      value: data?.userName || "",
     },
     {
       type: "email",
       name: "email",
       placeholder: "Email",
+      value: data?.email || "",
     },
     {
       type: "text",
       name: "password",
       placeholder: "Password",
+      value: data?.password || "",
     },
   ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await post("/auth/signup", data);
+      toast.success(res?.data?.message);
+      navigate("/sign-in");
+      setData({});
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
 
   return (
     <main>
       <h1 className={styles.title}>Sign Up</h1>
-      <form className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         {inputs.map((elem, idx) => {
           return (
             <input
@@ -39,6 +57,7 @@ const index = () => {
               type={elem?.type}
               name={elem?.name}
               onChange={(e) => handleOnChange(e)}
+              value={elem?.value}
               required
             />
           );
