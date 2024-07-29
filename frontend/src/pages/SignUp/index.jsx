@@ -3,6 +3,7 @@ import styles from "../SignIn/SignIn.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { post } from "../../services/publicRequest";
 import toast from "react-hot-toast";
+import OAuth from "../../components/OAuth";
 
 const index = () => {
   const [data, setData] = useState({});
@@ -62,7 +63,8 @@ const index = () => {
             />
           );
         })}
-        <button>Sign Up</button>
+        <button className={styles.btn}>Sign Up</button>
+        <OAuth />
         <p className={styles.text}>
           Have an account ?{" "}
           <Link className={styles.link} to={"/sign-in"}>

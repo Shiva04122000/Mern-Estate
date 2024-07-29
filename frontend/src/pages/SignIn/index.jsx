@@ -9,6 +9,7 @@ import {
   signInStarted,
   signInSuccess,
 } from "../../redux/reducers/userSlice";
+import OAuth from "../../components/OAuth";
 
 const index = () => {
   const [data, setData] = useState({});
@@ -69,7 +70,8 @@ const index = () => {
                 />
               );
             })}
-            <button>Sign In</button>
+            <button className={styles.btn}>Sign In</button>
+            <OAuth />
             <p className={styles.text}>
               Don't Have an account ?{" "}
               <Link className={styles.link} to={"/sign-up"}>

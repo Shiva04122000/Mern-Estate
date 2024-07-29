@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    avatar: {
+      type: String,
+      default:
+        "https://www.pngitem.com/middle/ixwxbwh_user-profile-dummy-hd-png-download/",
+    },
   },
   { timestamps: true }
 );

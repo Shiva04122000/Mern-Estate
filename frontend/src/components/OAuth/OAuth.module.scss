@@ -1,0 +1,21 @@
+@import "../../utils/variables";
+
+.btn {
+  font-family: $FAMILY_MONT;
+  width: 100%;
+  background: $GOOGLE_RED;
+  border: 1px solid $GOOGLE_RED;
+  outline: none;
+  color: $WHITE;
+  padding: 12px;
+  border-radius: 5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+
+  &:hover {
+    color: $GOOGLE_RED;
+    border: 1px solid $GOOGLE_RED;
+    background: transparent;
+  }
+}
