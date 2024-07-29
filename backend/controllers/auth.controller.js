@@ -52,8 +52,7 @@ export const signin = async (req, res, next) => {
       .json({
         success: true,
         message: "logged in succesfully",
-        user: rest,
-        access_token: token,
+        user: { ...rest, access_token: token },
       });
   } catch (error) {
     next(error);
