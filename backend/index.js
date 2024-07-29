@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import connectDb from "./data/dbConnect.js";
 import authRouter from "./routes/auth.route.js";
@@ -19,6 +20,8 @@ app.use(
     methods: ["POST", "GET", "PUT", "DELETE"],
   })
 );
+
+app.use(cookieParser());
 
 app.listen(PORT, () => {
   console.log(`Server running at port:${PORT}`);
