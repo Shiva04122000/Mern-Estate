@@ -3,9 +3,11 @@ import styles from "./Header.module.scss";
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { pageRoutes } from "../../utils/constants";
+import { useSelector } from "react-redux";
 
 const index = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
   return (
     <header className={styles.header}>
       <h2 onClick={() => navigate("/")}>
@@ -22,6 +24,16 @@ const index = () => {
             {elem?.routeName}
           </p>
         ))}
+        {user ? (
+          <img
+            className={styles.img}
+            src={user?.avatar}
+            onClick={() => navigate("/profile")}
+            alt="Profile Image"
+          />
+        ) : (
+          <p onClick={() => navigate("/sign-in")}>Sign In</p>
+        )}
       </div>
     </header>
   );

@@ -9,9 +9,9 @@ export const pageRoutes = [
     navigate: "/about",
     routeName: "About",
   },
-  {
-    id: 3,
-    navigate: "/sign-in",
-    routeName: "Sign In",
-  },
+  // {
+  //   id: 3,
+  //   navigate: "/sign-in",
+  //   routeName: "Sign In",
+  // },
 ];
