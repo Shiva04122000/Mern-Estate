@@ -17,7 +17,16 @@ main {
     .avatarImg {
       width: 80px;
       height: 80px;
+      cursor: pointer;
       border-radius: 50%;
+    }
+    .uploadPercentage,
+    .uploadSuccess {
+      font-size: 11px;
+      color: $GOOGLE_RED;
+    }
+    .uploadSuccess {
+      color: $SUCCESS_BLUE;
     }
     input {
       font-family: $FAMILY_MONT;
