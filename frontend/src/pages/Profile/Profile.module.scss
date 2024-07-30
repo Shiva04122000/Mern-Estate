@@ -1,0 +1,62 @@
+@import "../../utils/variables";
+@import "../../utils/mixins";
+
+main {
+  .title {
+    color: $BLACK;
+    text-align: center;
+    margin-top: 20px;
+    font-family: $FAMILY_POPPINS;
+  }
+  .form {
+    width: 30%;
+    margin: auto;
+    padding: 10px;
+    @include flexBody(center, 15px);
+    flex-direction: column;
+    .avatarImg {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    input {
+      font-family: $FAMILY_MONT;
+      width: calc(100% - 30px);
+      border: none;
+      outline: none;
+      background: $WHITE;
+      padding: 10px 15px;
+      border-radius: 5px;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+    .btn {
+      font-family: $FAMILY_MONT;
+      width: 100%;
+      background: $QUATERNARY_COLOR;
+      border: 1px solid $QUATERNARY_COLOR;
+      outline: none;
+      color: $WHITE;
+      padding: 12px;
+      border-radius: 5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.1s ease-in;
+      text-transform: uppercase;
+
+      &:hover {
+        color: $QUATERNARY_COLOR;
+        border: 1px solid $QUATERNARY_COLOR;
+        background: transparent;
+      }
+    }
+    .text {
+      width: 100%;
+      @include flexBody(center, 0px, space-between);
+      span {
+        color: $GOOGLE_RED;
+        cursor: pointer;
+        font-weight: 600;
+      }
+    }
+  }
+}
