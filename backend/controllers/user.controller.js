@@ -1,0 +1,39 @@
+import errorHandler from "../utils/error.js";
+import bcrypt from "bcryptjs";
+import User from "../models/user.model.js";
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (req.user.id !== id)
+      return next(new errorHandler(201, "Unauthorised User !"));
+
+    if (req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 10);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          userName: req.body.userName,
+          avatar: req.body.avatar,
+          email: req.body.email,
+          password: req.body.password,
+        },
+      },
+      { new: true }
+    );
+
+    const { password, ...rest } = updatedUser._doc;
+
+    res.status(200).json({
+      success: true,
+      message: "Profile Updated Succesfully",
+      user: { ...rest },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
