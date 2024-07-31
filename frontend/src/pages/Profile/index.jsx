@@ -65,7 +65,6 @@ const Index = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
           setData({ ...data, avatar: downloadUrl });
-          toast.success("Profile Uploaded");
         });
       }
     );
@@ -102,7 +101,7 @@ const Index = () => {
         {filePer > 0 && filePer < 100 ? (
           <p className={styles.uploadPercentage}>Uploading {filePer}%</p>
         ) : filePer === 100 ? (
-          <p className={styles.uploadSuccess}>Profile Uploded</p>
+          <p className={styles.uploadSuccess}>Image Successfully Uploaded !</p>
         ) : (
           ""
         )}
