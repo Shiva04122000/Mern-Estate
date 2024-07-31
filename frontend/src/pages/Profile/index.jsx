@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Profile.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -9,6 +9,12 @@ import {
 } from "firebase/storage";
 import { app } from "../../firebase";
 import toast from "react-hot-toast";
+import { put } from "../../services/publicRequest";
+import {
+  signInFailed,
+  signInStarted,
+  signInSuccess,
+} from "../../redux/reducers/userSlice";
 
 const Index = () => {
   const { user } = useSelector((state) => state.user);
@@ -16,6 +22,7 @@ const Index = () => {
   const [imgFile, setImageFile] = useState(null);
   const [filePer, setFilePer] = useState(0);
   const fileRef = useRef();
+  const dispatch = useDispatch();
 
   const handleOnChange = (e) => {
     setData({ ...data, [e?.target?.name]: e?.target?.value });
@@ -44,6 +51,16 @@ const Index = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      dispatch(signInStarted);
+      const res = await put("/user/update", user?._id, data);
+      console.log("res", res);
+      dispatch(signInSuccess(res?.data?.user));
+      toast.success(res?.data?.message);
+    } catch (error) {
+      dispatch(signInFailed);
+      toast.error(error);
+    }
   };
 
   const handleFileUpload = () => {

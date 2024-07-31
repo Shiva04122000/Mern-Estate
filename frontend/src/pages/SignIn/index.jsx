@@ -43,6 +43,7 @@ const index = () => {
       const res = await post("/auth/signin", data);
       dispatch(signInSuccess(res?.data?.user));
       toast.success(res?.data?.message);
+      localStorage.setItem("access_token", res?.data?.user?.access_token);
       navigate("/");
       setData({});
     } catch (error) {
