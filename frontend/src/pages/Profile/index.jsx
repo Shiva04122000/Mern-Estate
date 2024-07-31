@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Profile.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -9,7 +10,7 @@ import {
 } from "firebase/storage";
 import { app } from "../../firebase";
 import toast from "react-hot-toast";
-import { put } from "../../services/publicRequest";
+import { deleteRequest, get, put } from "../../services/publicRequest";
 import {
   signInFailed,
   signInStarted,
@@ -17,12 +18,13 @@ import {
 } from "../../redux/reducers/userSlice";
 
 const Index = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
   const [data, setData] = useState({});
   const [imgFile, setImageFile] = useState(null);
   const [filePer, setFilePer] = useState(0);
   const fileRef = useRef();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     setData({ ...data, [e?.target?.name]: e?.target?.value });
@@ -54,11 +56,35 @@ const Index = () => {
     try {
       dispatch(signInStarted);
       const res = await put("/user/update", user?._id, data);
-      console.log("res", res);
       dispatch(signInSuccess(res?.data?.user));
       toast.success(res?.data?.message);
     } catch (error) {
       dispatch(signInFailed);
+      toast.error(error);
+    }
+  };
+
+  function handleClearToken(res) {
+    navigate("/");
+    toast.success(res?.data?.message);
+    dispatch(signInSuccess(null));
+    localStorage.clear();
+  }
+
+  const handleSignOut = async () => {
+    try {
+      const res = await get("/auth/signout");
+      handleClearToken(res);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      const res = await deleteRequest("/user/delete", user?._id);
+      handleClearToken(res);
+    } catch (error) {
       toast.error(error);
     }
   };
@@ -132,14 +158,15 @@ const Index = () => {
               name={elem?.name}
               onChange={(e) => handleOnChange(e)}
               value={elem?.value}
-              required
             />
           );
         })}
-        <button className={styles.btn}>Update</button>
+        <button disabled={loading} className={styles.btn}>
+          {loading ? "Loading..." : "Update"}
+        </button>
         <div className={styles.text}>
-          <span>Delete Account</span>
-          <span>Sign Out</span>
+          <span onClick={handleDeleteUser}>Delete Account</span>
+          <span onClick={handleSignOut}>Sign Out</span>
         </div>
       </form>
     </main>

@@ -17,3 +17,11 @@ export const post = (endPoint, data) => {
 export const put = (endPoint, id, data) => {
   return publicRequest.put(`${endPoint}/${id}`, data);
 };
+
+export const get = (endPoint) => {
+  return publicRequest.get(endPoint);
+};
+
+export const deleteRequest = (endPoint, id) => {
+  return publicRequest.delete(`${endPoint}/${id}`);
+};

@@ -31,6 +31,7 @@ const Index = () => {
       const res = await post("/auth/google", data);
       dispatch(signInSuccess(res?.data?.user));
       toast.success(res?.data?.message);
+      localStorage.setItem("access_token", res?.data?.user?.access_token);
       navigate("/");
     } catch (error) {
       toast.error(error?.response?.data?.message);

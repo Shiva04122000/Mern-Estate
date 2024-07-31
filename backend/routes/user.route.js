@@ -1,9 +1,10 @@
 import express from "express";
-import { updateUser } from "../controllers/user.controller.js";
+import { deleteUser, updateUser } from "../controllers/user.controller.js";
 import { validateUser } from "../utils/validateUser.js";
 
 const router = express.Router();
 
 router.put("/update/:id", validateUser, updateUser);
+router.delete("/delete/:id", validateUser, deleteUser);
 
 export default router;
