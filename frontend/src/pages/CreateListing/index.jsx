@@ -8,6 +8,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
+import { post } from "../../services/publicRequest";
+import { useSelector } from "react-redux";
 
 const Index = () => {
   const [files, setFiles] = useState([]);
@@ -15,8 +17,7 @@ const Index = () => {
     imageUrls: [],
   });
   const [loading, setLoading] = useState(false);
-
-  console.log("formData", formData);
+  const { user } = useSelector((state) => state?.user);
 
   const handleFileUpload = () => {
     if (files.length > 0 && files.length < 7) {
@@ -70,8 +71,25 @@ const Index = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData?.type) {
+      toast.error(`Please Select any 1 type "Rent" or "Sell"`);
+    } else if (formData.imageUrls.length < 1) {
+      toast.error(`Please Select atleast 1 image`);
+    } else {
+      console.log("formData", formData);
+      try {
+        const res = await post("/listing/create", {
+          ...formData,
+          owner: user?._id,
+        });
+        toast.success(res?.data?.message);
+        console.log("res", res);
+      } catch (error) {
+        toast.error(error);
+      }
+    }
   };
 
   const handleRemoveImg = (imgId) => {
@@ -81,26 +99,68 @@ const Index = () => {
     });
   };
 
+  const handleOnChange = (e) => {
+    if (e.target.type === "checkbox") {
+      if (e.target?.name === "rent" || e.target.name === "sell") {
+        setFormData({ ...formData, type: e.target?.name });
+      } else {
+        setFormData({ ...formData, [e.target.name]: e.target.checked });
+      }
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
+
   return (
     <main>
       <h1 className={styles.title}>Create Listing</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.left}>
-          <input type="text" placeholder="Name" name="name" />
+          <input
+            onChange={(e) => handleOnChange(e)}
+            type="text"
+            placeholder="Name"
+            name="name"
+            value={formData?.name || ""}
+            required
+          />
           <textarea
             type="text"
             rows={3}
             placeholder="Description"
             name="description"
+            onChange={(e) => handleOnChange(e)}
+            value={formData?.description || ""}
+            required
           />
-          <textarea type="text" rows={2} placeholder="Address" name="address" />
+          <textarea
+            type="text"
+            rows={2}
+            placeholder="Address"
+            name="address"
+            onChange={(e) => handleOnChange(e)}
+            value={formData?.address || ""}
+            required
+          />
           <div className={styles.checkboxSection}>
             <div className={styles.checkboxDiv}>
-              <input className={styles.checkbox} name="rent" type="checkbox" />
+              <input
+                className={styles.checkbox}
+                name="rent"
+                type="checkbox"
+                checked={formData?.type === "rent"}
+                onChange={(e) => handleOnChange(e)}
+              />
               <span>Rent</span>
             </div>
             <div className={styles.checkboxDiv}>
-              <input className={styles.checkbox} name="sell" type="checkbox" />
+              <input
+                className={styles.checkbox}
+                name="sell"
+                type="checkbox"
+                checked={formData?.type === "sell"}
+                onChange={(e) => handleOnChange(e)}
+              />
               <span>Sell</span>
             </div>
             <div className={styles.checkboxDiv}>
@@ -108,6 +168,7 @@ const Index = () => {
                 className={styles.checkbox}
                 name="parking"
                 type="checkbox"
+                onChange={(e) => handleOnChange(e)}
               />
               <span>Parking</span>
             </div>
@@ -116,11 +177,17 @@ const Index = () => {
                 className={styles.checkbox}
                 name="furnished"
                 type="checkbox"
+                onChange={(e) => handleOnChange(e)}
               />
               <span>Furnished</span>
             </div>
             <div className={styles.checkboxDiv}>
-              <input className={styles.checkbox} name="offer" type="checkbox" />
+              <input
+                className={styles.checkbox}
+                name="offer"
+                type="checkbox"
+                onChange={(e) => handleOnChange(e)}
+              />
               <span>Offer</span>
             </div>
           </div>
@@ -131,6 +198,9 @@ const Index = () => {
                 type="text"
                 name="bedrooms"
                 placeholder="1"
+                onChange={(e) => handleOnChange(e)}
+                value={formData?.bedrooms || ""}
+                required
               />
               <span>Bedrooms</span>
             </div>
@@ -140,6 +210,9 @@ const Index = () => {
                 type="text"
                 name="bathrooms"
                 placeholder="1"
+                onChange={(e) => handleOnChange(e)}
+                value={formData?.bathrooms || ""}
+                required
               />
               <span>Bathrooms</span>
             </div>
@@ -149,18 +222,26 @@ const Index = () => {
                 type="text"
                 name="regularPrice"
                 placeholder="in ₹"
+                onChange={(e) => handleOnChange(e)}
+                value={formData?.regularPrice || ""}
+                required
               />
               <span>Regular Price</span>
             </div>
-            <div className={styles.numberDiv}>
-              <input
-                className={styles.number}
-                type="text"
-                name="discountPrice"
-                placeholder="in ₹"
-              />
-              <span>Discount Price</span>
-            </div>
+            {formData?.offer && (
+              <div className={styles.numberDiv}>
+                <input
+                  className={styles.number}
+                  type="text"
+                  name="discountPrice"
+                  placeholder="in ₹"
+                  onChange={(e) => handleOnChange(e)}
+                  value={formData?.discountPrice || ""}
+                  required={formData?.offer}
+                />
+                <span>Discount Price</span>
+              </div>
+            )}
           </div>
         </div>
         <div className={styles.right}>

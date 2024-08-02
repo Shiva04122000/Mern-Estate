@@ -13,7 +13,7 @@ import OAuth from "../../components/OAuth";
 
 const index = () => {
   const [data, setData] = useState({});
-  const { loading, user } = useSelector((state) => state?.user);
+  const { loading } = useSelector((state) => state?.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

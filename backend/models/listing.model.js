@@ -31,11 +31,11 @@ const listingSchema = new mongoose.Schema(
     },
     furnished: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     parking: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     type: {
       type: String,

@@ -101,7 +101,8 @@ main {
           width: 100%;
           @include flexBody(center, 10px, space-between);
           .img {
-            width: 100px;
+            width: 120px;
+            height: 65px;
           }
           .deleteBtn {
             color: $GOOGLE_RED;
