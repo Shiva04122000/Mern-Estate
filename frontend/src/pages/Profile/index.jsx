@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Profile.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -164,6 +164,9 @@ const Index = () => {
         <button disabled={loading} className={styles.btn}>
           {loading ? "Loading..." : "Update"}
         </button>
+        <Link to={"/create-listing"} className={styles.link}>
+          Create Listing
+        </Link>
         <div className={styles.text}>
           <span onClick={handleDeleteUser}>Delete Account</span>
           <span onClick={handleSignOut}>Sign Out</span>

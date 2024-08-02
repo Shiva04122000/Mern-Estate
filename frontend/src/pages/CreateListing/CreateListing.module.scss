@@ -1,0 +1,137 @@
+@import "../../utils/variables";
+@import "../../utils/mixins";
+
+main {
+  .title {
+    color: $BLACK;
+    text-align: center;
+    margin-top: 20px;
+    font-family: $FAMILY_POPPINS;
+  }
+  .form {
+    @include flexBody(flex-start, 25px, space-between);
+    margin: 20px auto 0px auto;
+    max-width: 75%;
+    font-size: 18px;
+    .left {
+      width: 60%;
+      @include flexBody(center, 15px);
+      flex-direction: column;
+      input,
+      textarea {
+        font-family: $FAMILY_MONT;
+        width: calc(100% - 30px);
+        border: 1px solid $TERTIARY_COLOR;
+        outline: none;
+        background: $WHITE;
+        padding: 10px 15px;
+        border-radius: 5px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        resize: none;
+      }
+
+      .checkboxSection {
+        width: 100%;
+        @include flexBody(flex-start, 20px, flex-start);
+        flex-wrap: wrap;
+        .checkboxDiv {
+          @include flexBody();
+          .checkbox {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+      .numberSection {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        .numberDiv {
+          @include flexBody(center, 15px, flex-start);
+          .number {
+            width: 50px;
+          }
+        }
+      }
+    }
+    .right {
+      width: 40%;
+      @include flexBody(center, 10px);
+      flex-direction: column;
+
+      .text {
+        font-size: 13px;
+      }
+      .uploadDiv {
+        @include flexBody(center, 10px);
+        .fileInput {
+          font-family: $FAMILY_MONT;
+          width: calc(100% - 30px);
+          border: 1px solid $TERTIARY_COLOR;
+          background: $WHITE;
+          padding: 5px 15px;
+          border-radius: 5px;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+        .imgUploadBtn {
+          width: 150px;
+          padding: 8px 2px;
+          cursor: pointer;
+          text-transform: uppercase;
+          background: $DARK_GREEN;
+          border: 1px solid $DARK_GREEN;
+          color: $WHITE;
+          border-radius: 5px;
+          transition: all 0.1s ease-in;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+      .imgDiv {
+        border: 1px solid #666;
+        width: calc(100% - 40px);
+        border-radius: 5px;
+        padding: 5px 20px;
+        @include flexBody(flex-start);
+        flex-direction: column;
+        .imgList {
+          width: 100%;
+          @include flexBody(center, 10px, space-between);
+          .img {
+            width: 100px;
+          }
+          .deleteBtn {
+            color: $GOOGLE_RED;
+            cursor: pointer;
+            font-size: 15px;
+            &:hover {
+              color: red;
+            }
+          }
+        }
+      }
+      .submitBtn {
+        font-family: $FAMILY_MONT;
+        width: 100%;
+        background: $QUATERNARY_COLOR;
+        border: 1px solid $QUATERNARY_COLOR;
+        outline: none;
+        color: $WHITE;
+        padding: 12px;
+        border-radius: 5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.1s ease-in;
+
+        &:hover {
+          color: $QUATERNARY_COLOR;
+          border: 1px solid $QUATERNARY_COLOR;
+          background: transparent;
+        }
+      }
+    }
+  }
+}

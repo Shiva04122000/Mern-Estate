@@ -5,6 +5,7 @@ import About from "./pages/About";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
+import CreateListing from "./pages/CreateListing";
 import ProtectedRoute from "./services/ProtectedRoute";
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
           {
             element: <Profile />,
             path: "/profile",
+          },
+          {
+            element: <CreateListing />,
+            path: "/create-listing",
           },
         ],
       },
