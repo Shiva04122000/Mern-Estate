@@ -39,12 +39,11 @@ const listingSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["rent", "sale"],
+      enum: ["rent", "sell"],
       required: true,
     },
     offer: {
       type: Boolean,
-      required: true,
     },
     imageUrls: {
       type: Array,

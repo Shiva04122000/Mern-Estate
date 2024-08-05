@@ -10,6 +10,7 @@ import {
 import { app } from "../../firebase";
 import { post } from "../../services/publicRequest";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [files, setFiles] = useState([]);
@@ -18,6 +19,7 @@ const Index = () => {
   });
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state?.user);
+  const navigate = useNavigate();
 
   const handleFileUpload = () => {
     if (files.length > 0 && files.length < 7) {
@@ -78,14 +80,13 @@ const Index = () => {
     } else if (formData.imageUrls.length < 1) {
       toast.error(`Please Select atleast 1 image`);
     } else {
-      console.log("formData", formData);
       try {
         const res = await post("/listing/create", {
           ...formData,
           owner: user?._id,
         });
         toast.success(res?.data?.message);
-        console.log("res", res);
+        navigate(`/listing/${res?.data?.listing?._id}`);
       } catch (error) {
         toast.error(error);
       }
@@ -282,7 +283,9 @@ const Index = () => {
               })}
             </div>
           )}
-          <button className={styles.submitBtn}>Create Listing</button>
+          <button disabled={loading} className={styles.submitBtn}>
+            Create Listing
+          </button>
         </div>
       </form>
     </main>
