@@ -22,9 +22,12 @@ const Index = () => {
   const [data, setData] = useState({});
   const [imgFile, setImageFile] = useState(null);
   const [filePer, setFilePer] = useState(0);
+  const [listing, setListing] = useState([]);
   const fileRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log("listing", listing);
 
   const handleOnChange = (e) => {
     setData({ ...data, [e?.target?.name]: e?.target?.value });
@@ -50,6 +53,15 @@ const Index = () => {
       value: data?.password || "",
     },
   ];
+
+  const getListing = async () => {
+    try {
+      const res = await get("/listing/get-listings");
+      setListing(res?.data?.listings);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,6 +96,16 @@ const Index = () => {
     try {
       const res = await deleteRequest("/user/delete", user?._id);
       handleClearToken(res);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const handleDeleteListing = async (id) => {
+    try {
+      const res = await deleteRequest("/listing/delete", id);
+      getListing();
+      toast.success(res?.data?.message);
     } catch (error) {
       toast.error(error);
     }
@@ -167,11 +189,48 @@ const Index = () => {
         <Link to={"/create-listing"} className={styles.link}>
           Create Listing
         </Link>
-        <div className={styles.text}>
-          <span onClick={handleDeleteUser}>Delete Account</span>
-          <span onClick={handleSignOut}>Sign Out</span>
-        </div>
       </form>
+      <div className={styles.text}>
+        <span onClick={handleDeleteUser}>Delete Account</span>
+        <span onClick={handleSignOut}>Sign Out</span>
+      </div>
+      <div className={styles.listingDiv}>
+        <p onClick={() => getListing()} className={styles.listing_text}>
+          {listing ? "All Listings" : "View Listings"}
+        </p>
+        {listing?.length > 0 && (
+          <div className={styles.allListings}>
+            {listing.map((item) => {
+              return (
+                <div key={item?._id} className={styles.singleListing}>
+                  <p
+                    onClick={() => navigate(`/listing/${item?._id}`)}
+                    className={styles.name}
+                  >
+                    {item?.name}
+                  </p>
+                  <div className={styles.singleListing_bottom}>
+                    <img
+                      onClick={() => navigate(`/listing/${item?._id}`)}
+                      className={styles.imgBanner}
+                      src={item?.imageUrls[0]}
+                      alt="image Banner"
+                    />
+                    <div className={styles.actionBtns}>
+                      <span onClick={() => navigate("/create-listing")}>
+                        Edit
+                      </span>
+                      <span onClick={() => handleDeleteListing(item?._id)}>
+                        Delete
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </main>
   );
 };

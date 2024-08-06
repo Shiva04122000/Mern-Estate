@@ -31,6 +31,10 @@ const router = createBrowserRouter([
             element: <CreateListing />,
             path: "/create-listing",
           },
+          {
+            element: <p>this is </p>,
+            path: "/listing/:id",
+          },
         ],
       },
       {
