@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/create", validateUser, createListing);
 router.get("/get-listings", validateUser, getMyListings);
-router.get("/:id", validateUser, getListingDetail);
+router.get("/:id", getListingDetail);
 router.put("/update/:id", validateUser, updateListing);
 router.delete("/delete/:id", validateUser, deleteListing);
 

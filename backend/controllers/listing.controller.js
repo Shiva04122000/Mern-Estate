@@ -85,14 +85,10 @@ export const getListingDetail = async (req, res, next) => {
     if (!listing) {
       return next(new errorHandler(400, "No Listing found"));
     }
-    if (listing.owner == req.user.id) {
-      return res.status(200).json({
-        success: true,
-        listing,
-      });
-    } else {
-      return next(new errorHandler(400, "No Listing found"));
-    }
+    res.status(200).json({
+      success: true,
+      listing,
+    });
   } catch (error) {
     next(error);
   }
