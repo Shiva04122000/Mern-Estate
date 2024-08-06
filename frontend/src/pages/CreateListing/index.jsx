@@ -86,7 +86,7 @@ const Index = () => {
           owner: user?._id,
         });
         toast.success(res?.data?.message);
-        navigate(`/listing/${res?.data?.listing?._id}`);
+        // navigate(`/listing/${res?.data?.listing?._id}`);
       } catch (error) {
         toast.error(error);
       }
