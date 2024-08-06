@@ -10,12 +10,16 @@ import {
 } from "firebase/storage";
 import { app } from "../../firebase";
 import toast from "react-hot-toast";
-import { deleteRequest, get, put } from "../../services/publicRequest";
 import {
   signInFailed,
   signInStarted,
   signInSuccess,
 } from "../../redux/reducers/userSlice";
+import {
+  privateDelete,
+  privateGet,
+  privatePut,
+} from "../../services/privateRequest";
 
 const Index = () => {
   const { user, loading } = useSelector((state) => state.user);
@@ -54,7 +58,7 @@ const Index = () => {
 
   const getListing = async () => {
     try {
-      const res = await get("/listing/get-listings");
+      const res = await privateGet("/listing/get-listings");
       setListing(res?.data?.listings);
     } catch (error) {
       toast.error(error);
@@ -65,7 +69,7 @@ const Index = () => {
     e.preventDefault();
     try {
       dispatch(signInStarted);
-      const res = await put("/user/update", user?._id, data);
+      const res = await privatePut("/user/update", user?._id, data);
       dispatch(signInSuccess(res?.data?.user));
       toast.success(res?.data?.message);
     } catch (error) {
@@ -83,7 +87,7 @@ const Index = () => {
 
   const handleSignOut = async () => {
     try {
-      const res = await get("/auth/signout");
+      const res = await privateGet("/auth/signout");
       handleClearToken(res);
     } catch (error) {
       toast.error(error);
@@ -92,7 +96,7 @@ const Index = () => {
 
   const handleDeleteUser = async () => {
     try {
-      const res = await deleteRequest("/user/delete", user?._id);
+      const res = await privateDelete("/user/delete", user?._id);
       handleClearToken(res);
     } catch (error) {
       toast.error(error);
@@ -101,7 +105,7 @@ const Index = () => {
 
   const handleDeleteListing = async (id) => {
     try {
-      const res = await deleteRequest("/listing/delete", id);
+      const res = await privateDelete("/listing/delete", id);
       getListing();
       toast.success(res?.data?.message);
     } catch (error) {

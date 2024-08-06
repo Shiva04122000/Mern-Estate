@@ -8,9 +8,9 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
-import { post, put } from "../../services/publicRequest";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { privatePost, privatePut } from "../../services/privateRequest";
 
 const Index = () => {
   const [files, setFiles] = useState([]);
@@ -83,11 +83,11 @@ const Index = () => {
     } else {
       try {
         const res = state
-          ? await put("/listing/update", state?._id, {
+          ? await privatePut("/listing/update", state?._id, {
               ...formData,
               owner: user?._id,
             })
-          : await post("/listing/create", {
+          : await privatePost("/listing/create", {
               ...formData,
               owner: user?._id,
             });
