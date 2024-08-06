@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import CreateListing from "./pages/CreateListing";
 import ProtectedRoute from "./services/ProtectedRoute";
+import ListingDetail from "./pages/ListingDetail";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
             path: "/create-listing",
           },
           {
-            element: <p>this is </p>,
+            element: <ListingDetail />,
             path: "/listing/:id",
           },
         ],
