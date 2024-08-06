@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./CreateListing.module.scss";
 import toast from "react-hot-toast";
 import {
@@ -8,9 +8,9 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
-import { post } from "../../services/publicRequest";
+import { post, put } from "../../services/publicRequest";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [files, setFiles] = useState([]);
@@ -20,6 +20,7 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state?.user);
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const handleFileUpload = () => {
     if (files.length > 0 && files.length < 7) {
@@ -81,12 +82,17 @@ const Index = () => {
       toast.error(`Please Select atleast 1 image`);
     } else {
       try {
-        const res = await post("/listing/create", {
-          ...formData,
-          owner: user?._id,
-        });
+        const res = state
+          ? await put("/listing/update", state?._id, {
+              ...formData,
+              owner: user?._id,
+            })
+          : await post("/listing/create", {
+              ...formData,
+              owner: user?._id,
+            });
         toast.success(res?.data?.message);
-        // navigate(`/listing/${res?.data?.listing?._id}`);
+        navigate(`/listing/${res?.data?.listing?._id}`);
       } catch (error) {
         toast.error(error);
       }
@@ -112,9 +118,15 @@ const Index = () => {
     }
   };
 
+  useEffect(() => {
+    if (state) {
+      setFormData(state);
+    }
+  }, [state]);
+
   return (
     <main>
-      <h1 className={styles.title}>Create Listing</h1>
+      <h1 className={styles.title}>{state ? "Update" : "Create"} Listing</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.left}>
           <input
@@ -284,7 +296,7 @@ const Index = () => {
             </div>
           )}
           <button disabled={loading} className={styles.submitBtn}>
-            Create Listing
+            {state ? "Update" : "Create"} Listing
           </button>
         </div>
       </form>

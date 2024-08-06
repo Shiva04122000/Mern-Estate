@@ -27,8 +27,6 @@ const Index = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log("listing", listing);
-
   const handleOnChange = (e) => {
     setData({ ...data, [e?.target?.name]: e?.target?.value });
   };
@@ -217,7 +215,12 @@ const Index = () => {
                       alt="image Banner"
                     />
                     <div className={styles.actionBtns}>
-                      <span onClick={() => navigate("/create-listing")}>
+                      <span
+                        onClick={() =>
+                          // navigate("/update-listing", { state: item })
+                          navigate("/create-listing", { state: item })
+                        }
+                      >
                         Edit
                       </span>
                       <span onClick={() => handleDeleteListing(item?._id)}>
