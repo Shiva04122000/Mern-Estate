@@ -55,3 +55,20 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUserDetail = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select(
+      "-password -createdAt -updatedAt -__v"
+    );
+    if (!user) return next(new errorHandler(400, "No user found"));
+
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ListingDetail.module.scss";
 import { get } from "../../services/publicRequest";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
@@ -16,11 +16,18 @@ import {
 } from "react-icons/fa";
 import "swiper/css/bundle";
 import { addCommas } from "../../utils/constants";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const Index = () => {
   SwiperCore.use([Navigation]);
   const [listing, setListing] = useState({});
   const [loading, setLoading] = useState(false);
+  const [contact, setContact] = useState(false);
+  const [ownerDetails, setOwnerDetails] = useState({});
+  const [message, setMessage] = useState("");
+  const [showMsgErr, setShowMsgErr] = useState(false);
+  const { user } = useSelector((state) => state?.user);
   const params = useParams();
 
   const getListingDetail = async () => {
@@ -32,6 +39,15 @@ const Index = () => {
       console.log("error", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const contactlandlord = async () => {
+    try {
+      const res = await get(`/user/${listing?.owner}`);
+      setOwnerDetails(res?.data?.user);
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
@@ -108,7 +124,55 @@ const Index = () => {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </span>
             </div>
-            <button className={styles.contact}>Contact Landlord</button>
+            {user?._id != listing.owner && (
+              <div className={styles.contactDiv}>
+                {contact ? (
+                  <div className={styles.msgDiv}>
+                    <p className={styles.text}>
+                      Contact <b>{ownerDetails?.userName}</b> for
+                      <b> {listing?.name}</b>
+                    </p>
+                    <form>
+                      <textarea
+                        rows={3}
+                        type="text"
+                        onChange={(e) => {
+                          setMessage(e.target.value);
+                          setShowMsgErr(message.length > 0 ? false : true);
+                        }}
+                        placeholder="Enter Your message here..."
+                        required
+                      />
+                      {showMsgErr && (
+                        <p className={styles.err}>Please add message !</p>
+                      )}
+                      <Link
+                        to={`mailto:${ownerDetails?.email}?subject=Regarding ${listing?.name}&body=${message}`}
+                        className={styles.contact}
+                        onClick={(e) => {
+                          if (!message) {
+                            e.preventDefault();
+                            setShowMsgErr(true);
+                          }
+                        }}
+                      >
+                        Send Message
+                      </Link>
+                    </form>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      contactlandlord();
+                      setContact((prev) => !prev);
+                    }}
+                    className={styles.contact}
+                  >
+                    Contact Landlord
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </section>
       )}

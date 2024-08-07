@@ -32,11 +32,11 @@ const router = createBrowserRouter([
             element: <CreateListing />,
             path: "/create-listing",
           },
-          {
-            element: <ListingDetail />,
-            path: "/listing/:id",
-          },
         ],
+      },
+      {
+        element: <ListingDetail />,
+        path: "/listing/:id",
       },
       {
         element: <SignUp />,
