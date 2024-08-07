@@ -15,6 +15,7 @@ import {
   FaShare,
 } from "react-icons/fa";
 import "swiper/css/bundle";
+import { addCommas } from "../../utils/constants";
 
 const Index = () => {
   SwiperCore.use([Navigation]);
@@ -60,10 +61,7 @@ const Index = () => {
             ))}
           </Swiper>
           <div className={styles.info}>
-            <p className={styles.name}>
-              {listing?.name} - ₹. {listing?.regularPrice}/
-              {listing?.type === "rent" ? "month" : ""}
-            </p>
+            <p className={styles.name}>{listing?.name}</p>
             <p className={styles.address}>
               <FaMapMarkedAlt className={styles.addIcon} />
               {listing?.address}
@@ -72,9 +70,23 @@ const Index = () => {
               <b>Description- </b>
               {listing?.description}
             </p>
-            <div className={styles.type}>
-              <span>for {listing?.type}</span>
-              <span>₹. {listing?.regularPrice}/-</span>
+            <div className={styles.typeDiv}>
+              <p className={styles.type}>
+                {listing?.type == "sell" ? "Per Night Onwards" : "For Sell"}
+              </p>
+              <p className={styles.price}>
+                ₹{" "}
+                {listing?.offer ? (
+                  <>
+                    <span className={styles.lineThrough}>
+                      {addCommas(listing?.regularPrice)}
+                    </span>{" "}
+                    {addCommas(listing?.discountPrice)} /-
+                  </>
+                ) : (
+                  `${addCommas(listing?.regularPrice)} /-`
+                )}
+              </p>
             </div>
             <div className={styles.ul}>
               <span className="flex items-center gap-1 whitespace-nowrap ">
