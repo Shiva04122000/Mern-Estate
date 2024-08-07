@@ -17,8 +17,8 @@ export const pageRoutes = [
 ];
 
 export function addCommas(num) {
-  let numString = num.toString();
-  if (numString.length > 3) {
+  let numString = num?.toString();
+  if (numString?.length > 3) {
     let last3 = numString.slice(-3);
     let mid = numString.slice(-5, -3);
     let rest = numString.slice(0, numString.length - 5);

@@ -139,15 +139,6 @@ const Index = () => {
           />
           <textarea
             type="text"
-            rows={3}
-            placeholder="Description"
-            name="description"
-            onChange={(e) => handleOnChange(e)}
-            value={formData?.description || ""}
-            required
-          />
-          <textarea
-            type="text"
             rows={2}
             placeholder="Address"
             name="address"
@@ -155,6 +146,16 @@ const Index = () => {
             value={formData?.address || ""}
             required
           />
+          <textarea
+            type="text"
+            rows={7}
+            placeholder="Description"
+            name="description"
+            onChange={(e) => handleOnChange(e)}
+            value={formData?.description || ""}
+            required
+          />
+
           <div className={styles.checkboxSection}>
             <div className={styles.checkboxDiv}>
               <input
@@ -181,6 +182,7 @@ const Index = () => {
                 className={styles.checkbox}
                 name="parking"
                 type="checkbox"
+                checked={formData?.parking}
                 onChange={(e) => handleOnChange(e)}
               />
               <span>Parking</span>
@@ -190,6 +192,7 @@ const Index = () => {
                 className={styles.checkbox}
                 name="furnished"
                 type="checkbox"
+                checked={formData?.furnished}
                 onChange={(e) => handleOnChange(e)}
               />
               <span>Furnished</span>
@@ -199,6 +202,7 @@ const Index = () => {
                 className={styles.checkbox}
                 name="offer"
                 type="checkbox"
+                checked={formData?.offer}
                 onChange={(e) => handleOnChange(e)}
               />
               <span>Offer</span>

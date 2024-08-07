@@ -23,8 +23,6 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
 
-  console.log("listing", listing);
-
   const getListingDetail = async () => {
     setLoading(true);
     try {
@@ -64,7 +62,7 @@ const Index = () => {
             <p className={styles.name}>{listing?.name}</p>
             <p className={styles.address}>
               <FaMapMarkedAlt className={styles.addIcon} />
-              {listing?.address}
+              <span>{listing?.address}</span>
             </p>
             <p>
               <b>Description- </b>
@@ -72,7 +70,7 @@ const Index = () => {
             </p>
             <div className={styles.typeDiv}>
               <p className={styles.type}>
-                {listing?.type == "sell" ? "Per Night Onwards" : "For Sell"}
+                {listing?.type == "rent" ? "Per Night Onwards" : "For Sell"}
               </p>
               <p className={styles.price}>
                 ₹{" "}
