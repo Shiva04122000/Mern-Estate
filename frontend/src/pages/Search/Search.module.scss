@@ -1,0 +1,94 @@
+@import "../../utils/mixins";
+@import "../../utils/variables";
+
+@mixin label() {
+  font-weight: 600;
+  white-space: nowrap;
+}
+@mixin input() {
+  font-family: $FAMILY_MONT;
+  border: 1px solid $TERTIARY_COLOR;
+  outline: none;
+  background: $WHITE;
+  padding: 5px 15px;
+  border-radius: 3px;
+  resize: none;
+}
+
+.main {
+  @include flexBody(flex-start);
+  color: $BLACK;
+  font-family: $FAMILY_POPPINS;
+  height: calc(100vh - 85px);
+  font-size: 17px;
+  .left {
+    width: 30%;
+    padding: 20px 15px;
+    background: rgb(252 220 198 / 28%);
+    height: calc(100% - 40px);
+    border-right: 2px solid #88888814;
+
+    form {
+      height: 100%;
+      @include flexBody(flex-start, 20px, flex-start);
+      flex-direction: column;
+      .searchTerm {
+        @include flexBody(center, 10px);
+        @include label();
+        input {
+          @include input();
+        }
+      }
+      .type {
+        @include flexBody(flex-start, 10px);
+        @include label();
+        .allCheckboxs {
+          @include flexBody(center, 10px, flex-start);
+          flex-wrap: wrap;
+          .checkboxDiv {
+            @include flexBody(center, 2px, flex-start);
+            .checkbox {
+              width: 20px;
+              height: 20px;
+            }
+            span {
+              font-weight: normal;
+            }
+          }
+        }
+      }
+      .selectDiv {
+        @include flexBody(center, 10px);
+        @include label();
+
+        select {
+          @include input();
+        }
+      }
+      .search {
+        background: $QUATERNARY_COLOR;
+        color: $WHITE;
+        font-size: 17px;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-family: $FAMILY_POPPINS;
+        font-weight: 600;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+  .right {
+    width: 70%;
+    padding: 10px;
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+  }
+}
