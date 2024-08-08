@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import CreateListing from "./pages/CreateListing";
 import ProtectedRoute from "./services/ProtectedRoute";
 import ListingDetail from "./pages/ListingDetail";
+import Search from "./pages/Search";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         element: <ListingDetail />,
         path: "/listing/:id",
+      },
+      {
+        element: <Search />,
+        path: "/search",
       },
       {
         element: <SignUp />,
