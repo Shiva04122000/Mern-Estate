@@ -15,7 +15,21 @@ export const createListing = async (req, res, next) => {
   }
 };
 
-export const getMyListings = async (req, res, next) => {
+export const allListings = async (req, res, next) => {
+  try {
+    const listings = await Listing.find().select("-owner -__v");
+
+    return res.status(200).json({
+      success: true,
+      count: listings.length,
+      listings,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const ownerListings = async (req, res, next) => {
   try {
     const user = req.user;
     const listings = await Listing.find({ owner: user.id });
@@ -88,6 +102,56 @@ export const getListingDetail = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      listing,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const filterListing = async (req, res, next) => {
+  try {
+    const limit = parseInt(req.query.limit) || 9;
+    const startIndex = parseInt(req.query.start) || 0;
+
+    let offer = req.query.offer;
+    if (offer === undefined || offer === "false") {
+      offer = { $in: [true, false] };
+    }
+
+    let furnished = req.query.furnished;
+    if (furnished === undefined || furnished === "false") {
+      furnished = { $in: [true, false] };
+    }
+
+    let parking = req.query.parking;
+    if (parking === undefined || parking === "false") {
+      parking = { $in: [true, false] };
+    }
+
+    let type = req.query.type;
+    if (type === undefined || type === "all") {
+      type = { $in: ["rent", "sell"] };
+    }
+
+    const searchTerm = req.query.searchTerm || "";
+    const sort = req.query.sort || "createdAt";
+    const order = req.query.order || "desc";
+
+    const listing = await Listing.find({
+      name: { $regex: searchTerm, $options: "i" },
+      offer,
+      furnished,
+      parking,
+      type,
+    })
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+
+    return res.status(200).json({
+      success: true,
+      count: listing.length,
       listing,
     });
   } catch (error) {
