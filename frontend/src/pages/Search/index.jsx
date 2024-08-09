@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Search.module.scss";
 import { useNavigate } from "react-router-dom";
 import { get } from "../../services/publicRequest";
-import { FaMapMarkedAlt } from "react-icons/fa";
-import { addCommas } from "../../utils/constants";
+import ListingItem from "../../components/ListingItem";
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +15,7 @@ const Index = () => {
     order: "desc",
   });
   const [filterListings, setFilterListings] = useState([]);
+  const [showMore, setShowMore] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -66,6 +66,29 @@ const Index = () => {
       const searchQuery = urlParams.toString();
       const res = await get(`/listing/get?${searchQuery}`);
       setFilterListings(res.data.listing);
+      if (res?.data.listing.length > 8) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const handleShowMore = async () => {
+    try {
+      const startIndex = filterListings.length;
+      const urlParams = new URLSearchParams(location.search);
+      urlParams.set("start", startIndex);
+      const searchQuery = urlParams.toString();
+      const res = await get(`/listing/get?${searchQuery}`);
+      setFilterListings([...filterListings, ...res?.data?.listing]);
+      if (res?.data.listing.length > 8) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -203,53 +226,14 @@ const Index = () => {
       <div className={styles.right}>
         <h2 className={styles.title}>Listing Results</h2>
         <section className={styles.allCards}>
-          {filterListings.map((item, id) => {
-            return (
-              <div key={id} className={styles.singleCard}>
-                <img
-                  className={styles.img}
-                  alt="img"
-                  src={item?.imageUrls[0]}
-                  onClick={() => navigate(`/listing/${item?._id}`)}
-                />
-                <div className={styles.info}>
-                  <h3 onClick={() => navigate(`/listing/${item?._id}`)}>
-                    {item?.name}
-                  </h3>
-                  <p className={styles.address}>
-                    <FaMapMarkedAlt className={styles.addIcon} />
-                    <span>{item?.address}</span>
-                  </p>
-                  <p className={styles.description}>{item?.description}</p>
-                  <p className={styles.price}>
-                    <span
-                      className={`${
-                        item?.type === "sell" ? styles.sell : styles.rent
-                      } ${styles.type}`}
-                    >
-                      {item?.type}
-                    </span>{" "}
-                    ₹
-                    {item?.offer ? (
-                      <>
-                        <span className={styles.lineThrough}>
-                          {addCommas(item?.regularPrice)}
-                        </span>{" "}
-                        {addCommas(item?.discountPrice)} /-
-                      </>
-                    ) : (
-                      `${addCommas(item?.regularPrice)} /-`
-                    )}
-                  </p>
-                  <div className={styles.rooms}>
-                    <p>{item?.bedrooms} Beds</p>
-                    <p>{item?.bathrooms} Baths</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-          <p className={styles.showMore}>Show more</p>
+          {filterListings.map((item, id) => (
+            <ListingItem key={id} listing={item} />
+          ))}
+          {showMore && (
+            <p className={styles.showMore} onClick={handleShowMore}>
+              Show more
+            </p>
+          )}
         </section>
       </div>
     </main>

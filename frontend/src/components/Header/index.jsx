@@ -21,7 +21,11 @@ const index = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
-    setSearchTerm(searchTermFromUrl);
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    } else {
+      setSearchTerm("");
+    }
   }, [location.search]);
 
   return (

@@ -60,6 +60,9 @@ const Index = () => {
     try {
       const res = await privateGet("/listing/get-listings");
       setListing(res?.data?.listings);
+      if (res?.data?.listings.length === 0) {
+        toast.error("No Listings Found !");
+      }
     } catch (error) {
       toast.error(error);
     }
@@ -94,14 +97,14 @@ const Index = () => {
     }
   };
 
-  const handleDeleteUser = async () => {
-    try {
-      const res = await privateDelete("/user/delete", user?._id);
-      handleClearToken(res);
-    } catch (error) {
-      toast.error(error);
-    }
-  };
+  // const handleDeleteUser = async () => {
+  //   try {
+  //     const res = await privateDelete("/user/delete", user?._id);
+  //     handleClearToken(res);
+  //   } catch (error) {
+  //     toast.error(error);
+  //   }
+  // };
 
   const handleDeleteListing = async (id) => {
     try {
@@ -193,7 +196,7 @@ const Index = () => {
         </Link>
       </form>
       <div className={styles.text}>
-        <span onClick={handleDeleteUser}>Delete Account</span>
+        {/* <span onClick={handleDeleteUser}>Delete Account</span> */}
         <span onClick={handleSignOut}>Sign Out</span>
       </div>
       <div className={styles.listingDiv}>
