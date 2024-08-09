@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./Search.module.scss";
 import { useNavigate } from "react-router-dom";
 import { get } from "../../services/publicRequest";
+import { FaMapMarkedAlt } from "react-icons/fa";
+import { addCommas } from "../../utils/constants";
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -200,6 +202,55 @@ const Index = () => {
       </div>
       <div className={styles.right}>
         <h2 className={styles.title}>Listing Results</h2>
+        <section className={styles.allCards}>
+          {filterListings.map((item, id) => {
+            return (
+              <div key={id} className={styles.singleCard}>
+                <img
+                  className={styles.img}
+                  alt="img"
+                  src={item?.imageUrls[0]}
+                  onClick={() => navigate(`/listing/${item?._id}`)}
+                />
+                <div className={styles.info}>
+                  <h3 onClick={() => navigate(`/listing/${item?._id}`)}>
+                    {item?.name}
+                  </h3>
+                  <p className={styles.address}>
+                    <FaMapMarkedAlt className={styles.addIcon} />
+                    <span>{item?.address}</span>
+                  </p>
+                  <p className={styles.description}>{item?.description}</p>
+                  <p className={styles.price}>
+                    <span
+                      className={`${
+                        item?.type === "sell" ? styles.sell : styles.rent
+                      } ${styles.type}`}
+                    >
+                      {item?.type}
+                    </span>{" "}
+                    ₹
+                    {item?.offer ? (
+                      <>
+                        <span className={styles.lineThrough}>
+                          {addCommas(item?.regularPrice)}
+                        </span>{" "}
+                        {addCommas(item?.discountPrice)} /-
+                      </>
+                    ) : (
+                      `${addCommas(item?.regularPrice)} /-`
+                    )}
+                  </p>
+                  <div className={styles.rooms}>
+                    <p>{item?.bedrooms} Beds</p>
+                    <p>{item?.bathrooms} Baths</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <p className={styles.showMore}>Show more</p>
+        </section>
       </div>
     </main>
   );
