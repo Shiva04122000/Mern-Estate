@@ -1,0 +1,20 @@
+@import "../../utils/mixins";
+@import "../../utils/variables";
+
+.section {
+  margin: 3% auto;
+  width: 80%;
+
+  h1 {
+    font-family: $FAMILY_POPPINS;
+    font-size: 24px;
+    color: $BLACK;
+    margin-bottom: 15px;
+  }
+  p {
+    color: $DARK_TERTIARY_COLOR;
+    font-family: $FAMILY_MONT;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+}

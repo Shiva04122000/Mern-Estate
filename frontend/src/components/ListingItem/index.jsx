@@ -4,10 +4,10 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { addCommas } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 
-const Index = ({ listing }) => {
+const Index = ({ listing, className, address }) => {
   const navigate = useNavigate();
   return (
-    <div className={styles.singleCard}>
+    <div className={`${styles.singleCard} ${className}`}>
       <img
         className={styles.img}
         alt="img"
@@ -18,7 +18,7 @@ const Index = ({ listing }) => {
         <h3 onClick={() => navigate(`/listing/${listing?._id}`)}>
           {listing?.name}
         </h3>
-        <p className={styles.address}>
+        <p className={`${styles.address} ${address}`}>
           <FaMapMarkedAlt className={styles.addIcon} />
           <span>{listing?.address}</span>
         </p>

@@ -1,6 +1,63 @@
+@import "../../utils/mixins";
+@import "../../utils/variables";
+
 .main {
   color: green;
-  .title {
-    color: red;
+  .intro {
+    width: 80%;
+    margin: 5% auto;
+    h1 {
+      font-size: 44px;
+      color: $DARK_QUATERNARY_COLOR;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+      span {
+        color: $QUATERNARY_COLOR;
+      }
+    }
+    .para,
+    .startNow {
+      font-size: 14px;
+      color: $TERTIARY_COLOR;
+      margin-bottom: 20px;
+    }
+    .startNow {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .section {
+    width: 80%;
+    margin: 2% auto;
+
+    h3 {
+      font-size: 24px;
+      color: $DARK_TERTIARY_COLOR;
+    }
+    .showMore {
+      font-size: 14px;
+      cursor: pointer;
+      color: $TERTIARY_COLOR;
+      &:hover {
+        color: $DARK_TERTIARY_COLOR;
+        text-decoration: underline;
+      }
+    }
+    .allListings {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px 10px;
+      padding: 20px 0px;
+      color: $BLACK;
+      .singleCard {
+        margin: auto;
+      }
+      .address {
+        height: 35px;
+      }
+    }
   }
 }
