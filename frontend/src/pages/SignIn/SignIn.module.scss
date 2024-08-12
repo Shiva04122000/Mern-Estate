@@ -52,3 +52,11 @@ main {
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  main {
+    .form {
+      width: 85%;
+    }
+  }
+}

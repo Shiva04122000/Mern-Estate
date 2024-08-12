@@ -81,3 +81,30 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .singleCard {
+    width: 180px;
+    height: 300px;
+    .img {
+      height: 110px;
+    }
+    .info {
+      h3 {
+        font-size: 14px;
+      }
+      .address {
+        font-size: 12px;
+      }
+      .description {
+        font-size: 12px;
+      }
+      .price {
+        font-size: 12px;
+        .type {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

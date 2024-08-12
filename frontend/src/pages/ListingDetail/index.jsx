@@ -10,14 +10,11 @@ import {
   FaBed,
   FaChair,
   FaMapMarkedAlt,
-  FaMapMarkerAlt,
   FaParking,
-  FaShare,
 } from "react-icons/fa";
 import "swiper/css/bundle";
 import { addCommas } from "../../utils/constants";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
 
 const Index = () => {
   SwiperCore.use([Navigation]);
@@ -85,8 +82,10 @@ const Index = () => {
               {listing?.description}
             </p>
             <div className={styles.typeDiv}>
-              <p className={styles.type}>
-                {listing?.type == "rent" ? "Per Night Onwards" : "For Sell"}
+              <p
+                className={listing?.type == "rent" ? styles.rent : styles.sell}
+              >
+                {listing?.type == "rent" ? "For Rent" : "For Sell"}
               </p>
               <p className={styles.price}>
                 ₹{" "}

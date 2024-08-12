@@ -227,7 +227,12 @@ const Index = () => {
         <h2 className={styles.title}>Listing Results</h2>
         <section className={styles.allCards}>
           {filterListings.map((item, id) => (
-            <ListingItem key={id} listing={item} />
+            <ListingItem
+              key={id}
+              listing={item}
+              className={styles.singleCard}
+              address={styles.address}
+            />
           ))}
           {showMore && (
             <p className={styles.showMore} onClick={handleShowMore}>

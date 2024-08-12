@@ -124,3 +124,33 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    height: auto;
+    .left {
+      width: 90%;
+      margin: auto;
+      padding: 40px 15px;
+    }
+    .right {
+      width: 95%;
+
+      .allCards {
+        height: auto;
+        max-height: none;
+        overflow-x: hidden;
+        grid-template-columns: 1fr 1fr;
+        padding: 20px 0px;
+
+        .singleCard {
+          height: 310px;
+          .address {
+            height: 35px;
+          }
+        }
+      }
+    }
+  }
+}

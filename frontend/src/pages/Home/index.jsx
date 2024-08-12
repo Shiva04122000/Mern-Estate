@@ -69,10 +69,10 @@ const Index = () => {
         {offerListings?.map((url) => (
           <SwiperSlide key={url}>
             <div
+              className={styles.image}
               style={{
                 background: `url(${url?.imageUrls[0]}) center no-repeat`,
                 backgroundSize: "cover",
-                height: "500px",
               }}
             ></div>
           </SwiperSlide>

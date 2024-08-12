@@ -18,3 +18,10 @@
     margin-bottom: 10px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .section {
+    margin: 10% auto;
+    width: 90%;
+  }
+}

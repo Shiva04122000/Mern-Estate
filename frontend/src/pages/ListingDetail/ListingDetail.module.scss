@@ -36,11 +36,14 @@
         border-radius: 3px;
         padding: 4px 10px;
       }
-      .type {
+      .rent {
+        background: $DARK_GREEN;
+      }
+      .sell {
         background: $DARK_GOOGLE_RED;
       }
       .price {
-        background: $DARK_GREEN;
+        background: $TERTIARY_COLOR;
         .lineThrough {
           text-decoration: line-through;
           font-size: 13px;
@@ -105,6 +108,30 @@
           color: red;
           font-style: italic;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .section {
+    .imgDiv {
+      height: 250px;
+    }
+    .info {
+      width: 90%;
+      margin: 10% auto;
+
+      .address {
+        width: 100%;
+        align-items: flex-start;
+      }
+      .typeDiv {
+        font-size: 16px;
+      }
+
+      .ul {
+        flex-wrap: wrap;
       }
     }
   }
