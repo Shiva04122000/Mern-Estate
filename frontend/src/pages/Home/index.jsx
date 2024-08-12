@@ -87,9 +87,10 @@ const Index = () => {
           Show more Offers
         </p>
         <div className={styles.allListings}>
-          {offerListings.map((item) => {
+          {offerListings.map((item, id) => {
             return (
               <ListingItem
+                key={id}
                 listing={item}
                 className={styles.singleCard}
                 address={styles.address}
